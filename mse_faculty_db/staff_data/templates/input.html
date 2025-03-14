@@ -1,0 +1,1123 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+    <h2>Please add the info you want to add to the corresponding sections!</h2>
+
+    <!-- Section 1: Employment History -->
+    <div class="section-header" onclick="toggleSection('section1')">Section 1: Employment History</div>
+    <div id="section1" class="section-content">
+        <form method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="form_type" value="employment_history_form">
+            {{ employment_history_form.faculty_id.label_tag }}
+            {{ employment_history_form.faculty_id }}
+            {{ employment_history_form.faculty_id.errors }}
+            {{ employment_history_form.period_start.label_tag }}
+            {{ employment_history_form.period_start }}
+            {{ employment_history_form.period_start.errors }}
+            {{ employment_history_form.period_end.label_tag }}
+            {{ employment_history_form.period_end }}
+            {{ employment_history_form.period_end.errors }}
+            {{ employment_history_form.title_rank.label_tag }}
+            {{ employment_history_form.title_rank }}
+            {{ employment_history_form.title_rank.errors }}
+            {{ employment_history_form.step.label_tag }}
+            {{ employment_history_form.step }}
+            {{ employment_history_form.step.errors }}
+            {{ employment_history_form.time_percentage.label_tag }}
+            {{ employment_history_form.time_percentage }}
+            {{ employment_history_form.time_percentage.errors }}
+            {{ employment_history_form.department.label_tag }}
+            {{ employment_history_form.department }}
+            {{ employment_history_form.department.errors }}
+            <button type="submit">Submit Employment History</button>
+        </form>
+        
+        <!-- Subsection: Other Employment -->
+        <div class="subsection-header" onclick="toggleSection('subsection1')">Other Employment</div>
+        <div id="subsection1" class="subsection-content">
+            <form method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="form_type" value="other_employment_form">
+                {{ other_employment_form.faculty_id.label_tag }}
+                {{ other_employment_form.faculty_id }}
+                {{ other_employment_form.faculty_id.errors }}
+                {{ other_employment_form.period_start.label_tag }}
+                {{ other_employment_form.period_start }}
+                {{ other_employment_form.period_start.errors }}
+                {{ other_employment_form.period_end.label_tag }}
+                {{ other_employment_form.period_end }}
+                {{ other_employment_form.period_end.errors }}
+                {{ other_employment_form.position_description.label_tag }}
+                {{ other_employment_form.position_description }}
+                {{ other_employment_form.position_description.errors }}
+                <button type="submit">Submit Other Employment</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Section 2: Teaching Activity During Review Period -->
+    <div class="section-header" onclick="toggleSection('section2')">Section 2: Teaching Activity During Review Period</div>
+    <div id="section2" class="section-content">
+        <!-- UCICourse Subsection -->
+        <div class="subsection-header" onclick="toggleSection('uciCourseForm')">UCI Course Form</div>
+        <div id="uciCourseForm" class="subsection-content">
+            <form method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="form_type" value="uci_course_form">
+                {{ uci_course_form.faculty_id.label_tag }}
+                {{ uci_course_form.faculty_id }}
+                {{ uci_course_form.faculty_id.errors }}
+
+                <!-- Add period_start input here -->
+                {{ uci_course_form.period_start.label_tag }}
+                {{ uci_course_form.period_start }}
+                {{ uci_course_form.period_start.errors }}
+                {{ uci_course_form.period_end.label_tag }}
+                {{ uci_course_form.period_end }}
+                {{ uci_course_form.period_end.errors }}
+
+                {{ uci_course_form.courseNumber.label_tag }}
+                {{ uci_course_form.courseNumber }}
+                {{ uci_course_form.courseNumber.errors }}
+                {{ uci_course_form.courseTitle.label_tag }}
+                {{ uci_course_form.courseTitle }}
+                {{ uci_course_form.courseTitle.errors }}
+                {{ uci_course_form.enrollment.label_tag }}
+                {{ uci_course_form.enrollment }}
+                {{ uci_course_form.enrollment.errors }}
+                {{ uci_course_form.numInstructors.label_tag }}
+                {{ uci_course_form.numInstructors }}
+                {{ uci_course_form.numInstructors.errors }}
+                {{ uci_course_form.percentTaught.label_tag }}
+                {{ uci_course_form.percentTaught }}
+                {{ uci_course_form.percentTaught.errors }}
+                {{ uci_course_form.coreCourse.label_tag }}
+                {{ uci_course_form.coreCourse }}
+                {{ uci_course_form.coreCourse.errors }}
+                <button type="submit">Submit UCICourse</button>
+            </form>
+        </div>
+
+        <!-- DoctoralStudent Subsection -->
+        <div class="subsection-header" onclick="toggleSection('doctoralStudentForm')">Doctoral Student Form</div>
+        <div id="doctoralStudentForm" class="subsection-content">
+            <form method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="form_type" value="doctoral_student_form">
+                {{ doctoral_student_form.faculty_id.label_tag }}
+                {{ doctoral_student_form.faculty_id }}
+                {{ doctoral_student_form.faculty_id.errors }}
+                {{ doctoral_student_form.internalID.label_tag }}
+                {{ doctoral_student_form.internalID }}
+                {{ doctoral_student_form.internalID.errors }}
+                {{ doctoral_student_form.period_start.label_tag }}
+                {{ doctoral_student_form.period_start }}
+                {{ doctoral_student_form.period_start.errors }}
+                {{ doctoral_student_form.period_end.label_tag }}
+                {{ doctoral_student_form.period_end }}
+                {{ doctoral_student_form.preiod_end.errors }}
+                {{ doctoral_student_form.endpresent.label_tag }}
+                {{ doctoral_student_form.endpresent }}
+                {{ doctoral_student_form.endpresent.errors }}
+                {{ doctoral_student_form.studentName.label_tag }}
+                {{ doctoral_student_form.studentName }}
+                {{ doctoral_student_form.studentName.errors }}
+                {{ doctoral_student_form.role.label_tag }}
+                {{ doctoral_student_form.role }}
+                {{ doctoral_student_form.role.errors }}
+                {{ doctoral_student_form.department.label_tag }}
+                {{ doctoral_student_form.department }}
+                {{ doctoral_student_form.department.errors }}
+                {{ doctoral_student_form.comments.label_tag }}
+                {{ doctoral_student_form.comments }}
+                {{ doctoral_student_form.comments.errors }}
+                {{ doctoral_student_form.receivedPHD.label_tag }}
+                {{ doctoral_student_form.receivedPHD }}
+                {{ doctoral_student_form.receivedPHD.errors }}
+                {{ doctoral_student_form.candidacy.label_tag }}
+                {{ doctoral_student_form.candidacy }}
+                {{ doctoral_student_form.candidacy.errors }}
+                {{ doctoral_student_form.preDissComm.label_tag }}
+                {{ doctoral_student_form.preDissComm }}
+                {{ doctoral_student_form.preDissComm.errors }}
+                {{ doctoral_student_form.otherResearch.label_tag }}
+                {{ doctoral_student_form.otherResearch }}
+                {{ doctoral_student_form.otherResearch.errors }}
+                <button type="submit">Submit DoctoralStudent</button>
+            </form>
+        </div>
+
+        <!-- MasterStudent Subsection -->
+        <div class="subsection-header" onclick="toggleSection('masterStudentForm')">Master Student Form</div>
+        <div id="masterStudentForm" class="subsection-content">
+            <form method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="form_type" value="master_student_form">
+                {{ master_student_form.faculty_id.label_tag }}
+                {{ master_student_form.faculty_id }}
+                {{ master_student_form.faculty_id.errors }}
+                {{ master_student_form.internalID.label_tag }}
+                {{ master_student_form.internalID }}
+                {{ master_student_form.internalID.errors }}
+                {{ master_student_form.period_start.label_tag }}
+                {{ master_student_form.period_start }}
+                {{ master_student_form.period_start.errors }}
+                {{ master_student_form.period_end.label_tag }}
+                {{ master_student_form.period_end }}
+                {{ master_student_form.period_end.errors }}
+                {{ master_student_form.endpresent.label_tag }}
+                {{ master_student_form.endpresent }}
+                {{ master_student_form.endpresent.errors }}
+                {{ master_student_form.studentName.label_tag }}
+                {{ master_student_form.studentName }}
+                {{ master_student_form.studentName.errors }}
+                {{ master_student_form.role.label_tag }}
+                {{ master_student_form.role }}
+                {{ master_student_form.role.errors }}
+                {{ master_student_form.department.label_tag }}
+                {{ master_student_form.department }}
+                {{ master_student_form.department.errors }}
+                {{ master_student_form.comments.label_tag }}
+                {{ master_student_form.comments }}
+                {{ master_student_form.comments.errors }}
+                <button type="submit">Submit MasterStudent</button>
+            </form>
+        </div>
+
+	<div class="subsection-header" onclick="toggleSection('postdocStudentForm')">Postdoctoral Student Form</div>
+	<div id="postdocStudentForm" class="subsection-content">
+	    <form method="POST">
+	        {% csrf_token %}
+	        <input type="hidden" name="form_type" value="postdoc_student_form">
+	        {{ postdoc_student_form.faculty_id.label_tag }}
+	        {{ postdoc_student_form.faculty_id }}
+	        {{ postdoc_student_form.faculty_id.errors }}
+	        {{ postdoc_student_form.internalID.label_tag }}
+	        {{ postdoc_student_form.internalID }}
+	        {{ postdoc_student_form.internalID.errors }}
+	        {{ postdoc_student_form.period_start.label_tag }}
+	        {{ postdoc_student_form.period_start }}
+	        {{ postdoc_student_form.period_start.errors }}
+	        {{ postdoc_student_form.period_end.label_tag }}
+	        {{ postdoc_student_form.period_end }}
+	        {{ postdoc_student_form.period_end.errors }}
+	        {{ postdoc_student_form.endpresent.label_tag }}
+	        {{ postdoc_student_form.endpresent }}
+	        {{ postdoc_student_form.endpresent.errors }}
+	        {{ postdoc_student_form.studentName.label_tag }}
+	        {{ postdoc_student_form.studentName }}
+	        {{ postdoc_student_form.studentName.errors }}
+	        {{ postdoc_student_form.role.label_tag }}
+	        {{ postdoc_student_form.role }}
+	        {{ postdoc_student_form.role.errors }}
+	        {{ postdoc_student_form.department.label_tag }}
+	        {{ postdoc_student_form.department }}
+	        {{ postdoc_student_form.department.errors }}
+	        {{ postdoc_student_form.comments.label_tag }}
+	        {{ postdoc_student_form.comments }}
+	        {{ postdoc_student_form.comments.errors }}
+	        <button type="submit">Submit PostdocStudent</button>
+	    </form>
+	</div>
+
+	<!-- UndergradResearch Subsection -->
+	<div class="subsection-header" onclick="toggleSection('undergradResearchForm')">Undergraduate Research Form</div>
+	<div id="undergradResearchForm" class="subsection-content">
+	    <form method="POST">
+	        {% csrf_token %}
+	        <input type="hidden" name="form_type" value="undergrad_research_form">
+	        {{ undergrad_research_form.faculty_id.label_tag }}
+	        {{ undergrad_research_form.faculty_id }}
+	        {{ undergrad_research_form.faculty_id.errors }}
+	        {{ undergrad_research_form.internalID.label_tag }}
+	        {{ undergrad_research_form.internalID }}
+	        {{ undergrad_research_form.internalID.errors }}
+	        {{ undergrad_research_form.period_start.label_tag }}
+	        {{ undergrad_research_form.period_start }}
+	        {{ undergrad_research_form.period_start.errors }}
+	        {{ undergrad_research_form.period_end.label_tag }}
+	        {{ undergrad_research_form.period_end }}
+	        {{ undergrad_research_form.period_end.errors }}
+	        {{ undergrad_research_form.endpresent.label_tag }}
+	        {{ undergrad_research_form.endpresent }}
+	        {{ undergrad_research_form.endpresent.errors }}
+	        {{ undergrad_research_form.studentName.label_tag }}
+	        {{ undergrad_research_form.studentName }}
+	        {{ undergrad_research_form.studentName.errors }}
+	        {{ undergrad_research_form.role.label_tag }}
+	        {{ undergrad_research_form.role }}
+	        {{ undergrad_research_form.role.errors }}
+	        {{ undergrad_research_form.department.label_tag }}
+	        {{ undergrad_research_form.department }}
+	        {{ undergrad_research_form.department.errors }}
+	        {{ undergrad_research_form.comments.label_tag }}
+	        {{ undergrad_research_form.comments }}
+	        {{ undergrad_research_form.comments.errors }}
+	        <button type="submit">Submit UndergradResearch</button>
+	    </form>
+	</div>
+
+	<!-- OtherResearch Subsection -->
+	<div class="subsection-header" onclick="toggleSection('otherResearchForm')">Other Research Form</div>
+	<div id="otherResearchForm" class="subsection-content">
+	    <form method="POST">
+	        {% csrf_token %}
+	        <input type="hidden" name="form_type" value="other_research_form">
+	        {{ other_research_form.faculty_id.label_tag }}
+	        {{ other_research_form.faculty_id }}
+	        {{ other_research_form.faculty_id.errors }}
+	        {{ other_research_form.internalID.label_tag }}
+	        {{ other_research_form.internalID }}
+	        {{ other_research_form.internalID.errors }}
+	        {{ other_research_form.period_start.label_tag }}
+	        {{ other_research_form.period_start }}
+	        {{ other_research_form.period_start.errors }}
+	        {{ other_research_form.period_end.label_tag }}
+	        {{ other_research_form.period_end }}
+	        {{ other_research_form.period_end.errors }}
+	        {{ other_research_form.endpresent.label_tag }}
+	        {{ other_research_form.endpresent }}
+	        {{ other_research_form.endpresent.errors }}
+	        {{ other_research_form.studentName.label_tag }}
+	        {{ other_research_form.studentName }}
+	        {{ other_research_form.studentName.errors }}
+	        {{ other_research_form.role.label_tag }}
+	        {{ other_research_form.role }}
+	        {{ other_research_form.role.errors }}
+	        {{ other_research_form.department.label_tag }}
+	        {{ other_research_form.department }}
+	        {{ other_research_form.department.errors }}
+	        {{ other_research_form.comments.label_tag }}
+	        {{ other_research_form.comments }}
+	        {{ other_research_form.comments.errors }}
+	        <button type="submit">Submit OtherResearch</button>
+	    </form>
+	</div>
+
+	<!-- TeachingAward Subsection -->
+	<div class="subsection-header" onclick="toggleSection('teachingAwardForm')">Teaching Award Form</div>
+	<div id="teachingAwardForm" class="subsection-content">
+	    <form method="POST">
+	        {% csrf_token %}
+	        <input type="hidden" name="form_type" value="teaching_award_form">
+	        {{ teaching_award_form.faculty_id.label_tag }}
+	        {{ teaching_award_form.faculty_id }}
+	        {{ teaching_award_form.faculty_id.errors }}
+	        {{ teaching_award_form.internalID.label_tag }}
+	        {{ teaching_award_form.internalID }}
+	        {{ teaching_award_form.internalID.errors }}
+	        {{ teaching_award_form.period_start.label_tag }}
+	        {{ teaching_award_form.period_start }}
+	        {{ teaching_award_form.period_start.errors }}
+	        {{ teaching_award_form.period_end.label_tag }}
+	        {{ teaching_award_form.period_end }}
+	        {{ teaching_award_form.period_end.errors }}
+	        {{ teaching_award_form.description.label_tag }}
+	        {{ teaching_award_form.description }}
+	        {{ teaching_award_form.description.errors }}
+	        <button type="submit">Submit TeachingAward</button>
+	    </form>
+	</div>
+
+	<!-- TeachingInnovation Subsection -->
+	<div class="subsection-header" onclick="toggleSection('teachingInnovationForm')">Teaching Innovation Form</div>
+	<div id="teachingInnovationForm" class="subsection-content">
+	    <form method="POST">
+	        {% csrf_token %}
+	        <input type="hidden" name="form_type" value="teaching_innovation_form">
+	        {{ teaching_innovation_form.faculty_id.label_tag }}
+	        {{ teaching_innovation_form.faculty_id }}
+	        {{ teaching_innovation_form.faculty_id.errors }}
+	        {{ teaching_innovation_form.internalID.label_tag }}
+	        {{ teaching_innovation_form.internalID }}
+	        {{ teaching_innovation_form.internalID.errors }}
+	        {{ teaching_innovation_form.period_start.label_tag }}
+	        {{ teaching_innovation_form.period_start }}
+	        {{ teaching_innovation_form.period_start.errors }}
+	        {{ teaching_innovation_form.period_end.label_tag }}
+	        {{ teaching_innovation_form.period_end }}
+	        {{ teaching_innovation_form.period_end.errors }}
+	        {{ teaching_innovation_form.description.label_tag }}
+	        {{ teaching_innovation_form.description }}
+	        {{ teaching_innovation_form.description.errors }}
+	        <button type="submit">Submit TeachingInnovation</button>
+	    </form>
+	</div>
+
+	<!-- ProfDevelopmentTeaching Subsection -->
+	<div class="subsection-header" onclick="toggleSection('profDevelopmentTeachingForm')">Professional Development Teaching Form</div>
+	<div id="profDevelopmentTeachingForm" class="subsection-content">
+	    <form method="POST">
+	        {% csrf_token %}
+	        <input type="hidden" name="form_type" value="prof_development_teaching_form">
+	        {{ prof_development_teaching_form.faculty_id.label_tag }}
+	        {{ prof_development_teaching_form.faculty_id }}
+	        {{ prof_development_teaching_form.faculty_id.errors }}
+	        {{ prof_development_teaching_form.internalID.label_tag }}
+	        {{ prof_development_teaching_form.internalID }}
+	        {{ prof_development_teaching_form.internalID.errors }}
+	        {{ prof_development_teaching_form.period_start.label_tag }}
+	        {{ prof_development_teaching_form.period_start }}
+	        {{ prof_development_teaching_form.period_start.errors }}
+	        {{ prof_development_teaching_form.period_end.label_tag }}
+	        {{ prof_development_teaching_form.period_end }}
+	        {{ prof_development_teaching_form.period_end.errors }}
+	        {{ prof_development_teaching_form.description.label_tag }}
+	        {{ prof_development_teaching_form.description }}
+	        {{ prof_development_teaching_form.description.errors }}
+	        <button type="submit">Submit ProfDevelopmentTeaching</button>
+	    </form>
+	</div>
+
+	<div class="subsection-header" onclick="toggleSection('diversityTeachingForm')">Diversity Teaching Form</div>
+	<div id="diversityTeachingForm" class="subsection-content">
+    <form method="POST">
+        {% csrf_token %}
+	        <input type="hidden" name="form_type" value="diversity_teaching_form">
+	        {{ diversity_teaching_form.faculty_id.label_tag }}
+	        {{ diversity_teaching_form.faculty_id }}
+	        {{ diversity_teaching_form.faculty_id.errors }}
+	        {{ diversity_teaching_form.internalID.label_tag }}
+	        {{ diversity_teaching_form.internalID }}
+	        {{ diversity_teaching_form.internalID.errors }}
+	        {{ diversity_teaching_form.period_start.label_tag }}
+	        {{ diversity_teaching_form.period_start }}
+	        {{ diversity_teaching_form.period_start.errors }}
+	        {{ diversity_teaching_form.period_end.label_tag }}
+	        {{ diversity_teaching_form.period_end }}
+	        {{ diversity_teaching_form.period_end.errors }}
+	        {{ diversity_teaching_form.description.label_tag }}
+	        {{ diversity_teaching_form.description }}
+	        {{ diversity_teaching_form.description.errors }}
+	        <button type="submit">Submit Diversity Teaching</button>
+    	</form>
+	</div>
+</div>
+
+        <!-- Section 3 -->
+        <div class="section-header" onclick="toggleSection('section3')">Section 3: Research and Creative Activity</div>
+    	<div id="section3" class="section-content">
+	        	<!-- IntellectualContributions Subsection -->
+	        	<div class="subsection-header" onclick="toggleSection('intellectualContributionsForm')">Intellectual Contributions Form</div>
+	        	<div id="intellectualContributionsForm" class="subsection-content">
+	            	<form method="POST">
+	               		{% csrf_token %}
+	                	<input type="hidden" name="form_type" value="intellectual_contributions_form">
+
+		                {{ intellectual_contributions_form.faculty_id.label_tag }}
+		                {{ intellectual_contributions_form.faculty_id }}
+		                {{ intellectual_contributions_form.faculty_id.errors }}
+
+		                {{ intellectual_contributions_form.internalID.label_tag }}
+		                {{ intellectual_contributions_form.internalID }}
+		                {{ intellectual_contributions_form.internalID.errors }}
+
+		                {{ intellectual_contributions_form.category.label_tag }}
+		                {{ intellectual_contributions_form.category }}
+		                {{ intellectual_contributions_form.category.errors }}
+
+		                {{ intellectual_contributions_form.publication_citation.label_tag }}
+		                {{ intellectual_contributions_form.publication_citation }}
+		                {{ intellectual_contributions_form.publication_citation.errors }}
+
+		                {{ intellectual_contributions_form.period_start.label_tag }}
+		                {{ intellectual_contributions_form.period_start }}
+		                {{ intellectual_contributions_form.period_start.errors }}
+
+                        {{ intellectual_contributions_form.period_end.label_tag }}
+                        {{ intellectual_contributions_form.period_end }}
+                        {{ intellectual_contributions_form.period_end.errors }}
+
+	                	<button type="submit">Submit Intellectual Contributions</button>
+	            	</form>
+	        	</div>
+
+		        <!-- NotCreditedArtistic Subsection -->
+		        <div class="subsection-header" onclick="toggleSection('notCreditedArtisticForm')">Artistic and Professional Performance Form</div>
+		        <div id="notCreditedArtisticForm" class="subsection-content">
+		            <form method="POST">
+		                {% csrf_token %}
+		                <input type="hidden" name="form_type" value="not_credited_artistic_form">
+
+		                {{ not_credited_artistic_form.faculty_id.label_tag }}
+		                {{ not_credited_artistic_form.faculty_id }}
+		                {{ not_credited_artistic_form.faculty_id.errors }}
+
+		                {{ not_credited_artistic_form.internalID.label_tag }}
+		                {{ not_credited_artistic_form.internalID }}
+		                {{ not_credited_artistic_form.internalID.errors }}
+
+		                {{ not_credited_artistic_form.category.label_tag }}
+		                {{ not_credited_artistic_form.category }}
+		                {{ not_credited_artistic_form.category.errors }}
+
+		                {{ not_credited_artistic_form.creativeWork.label_tag }}
+		                {{ not_credited_artistic_form.creativeWork }}
+		                {{ not_credited_artistic_form.creativeWork.errors }}
+
+		                {{ not_credited_artistic_form.period_start.label_tag }}
+		                {{ not_credited_artistic_form.period_start }}
+		                {{ not_credited_artistic_form.period_start.errors }}
+
+                        {{ not_credited_artistic_form.period_end.label_tag }}
+                        {{ not_credited_artistic_form.period_end }}
+                        {{ not_credited_artistic_form.period_end.errors }}
+
+
+
+		                <button type="submit">Submit Artistic and Professional Performance</button>
+		            </form>
+		        </div>
+
+		    <div class="subsection-header" onclick="toggleSection('previousContributionsForm')">Previous Contributions Form</div>
+	        <div id="previousContributionsForm" class="subsection-content">
+	            <form method="POST">
+	                {% csrf_token %}
+	                <input type="hidden" name="form_type" value="previous_contributions_form">
+
+	                {{ previous_contributions_form.faculty_id.label_tag }}
+	                {{ previous_contributions_form.faculty_id }}
+	                {{ previous_contributions_form.faculty_id.errors }}
+
+	                {{ previous_contributions_form.internalID.label_tag }}
+	                {{ previous_contributions_form.internalID }}
+	                {{ previous_contributions_form.internalID.errors }}
+
+	                {{ previous_contributions_form.category.label_tag }}
+	                {{ previous_contributions_form.category }}
+	                {{ previous_contributions_form.category.errors }}
+
+	                {{ previous_contributions_form.publication_citation.label_tag }}
+	                {{ previous_contributions_form.publication_citation }}
+	                {{ previous_contributions_form.publication_citation.errors }}
+
+	                {{ previous_contributions_form.period_start.label_tag }}
+	                {{ previous_contributions_form.period_start }}
+	                {{ previous_contributions_form.period_start.errors }}
+
+                    {{ previous_contributions_form.period_end.label_tag }}
+                    {{ previous_contributions_form.period_end }}
+                    {{ previous_contributions_form.period_end.errors }}
+
+	                <button type="submit">Submit Previous Contributions</button>
+	            </form>
+	        </div>
+
+	        <!-- CreditedArtistic Subsection -->
+	        <div class="subsection-header" onclick="toggleSection('creditedArtisticForm')">Credited Artistic Form</div>
+	        <div id="creditedArtisticForm" class="subsection-content">
+	            <form method="POST">
+	                {% csrf_token %}
+	                <input type="hidden" name="form_type" value="credited_artistic_form">
+
+	                {{ credited_artistic_form.faculty_id.label_tag }}
+	                {{ credited_artistic_form.faculty_id }}
+	                {{ credited_artistic_form.faculty_id.errors }}
+
+	                {{ credited_artistic_form.internalID.label_tag }}
+	                {{ credited_artistic_form.internalID }}
+	                {{ credited_artistic_form.internalID.errors }}
+
+	                {{ credited_artistic_form.category.label_tag }}
+	                {{ credited_artistic_form.category }}
+	                {{ credited_artistic_form.category.errors }}
+
+	                {{ credited_artistic_form.creativeWork.label_tag }}
+	                {{ credited_artistic_form.creativeWork }}
+	                {{ credited_artistic_form.creativeWork.errors }}
+
+	                {{ credited_artistic_form.period_start.label_tag }}
+	                {{ credited_artistic_form.period_start }}
+	                {{ credited_artistic_form.period_start.errors }}
+
+                    {{ credited_artistic_form.period_end.label_tag }}
+                    {{ credited_artistic_form.period_end }}
+                    {{ credited_artistic_form.period_end.errors }}
+
+	                <button type="submit">Submit Credited Artistic Work</button>
+	            </form>
+	        </div>
+
+	        <!-- CompletedPartsOfWorks Subsection -->
+	        <div class="subsection-header" onclick="toggleSection('completedPartsOfWorksForm')">Completed Parts of Larger Works Form</div>
+	        <div id="completedPartsOfWorksForm" class="subsection-content">
+	            <form method="POST">
+	                {% csrf_token %}
+	                <input type="hidden" name="form_type" value="completed_parts_of_works_form">
+
+	                {{ completed_parts_of_works_form.faculty_id.label_tag }}
+	                {{ completed_parts_of_works_form.faculty_id }}
+	                {{ completed_parts_of_works_form.faculty_id.errors }}
+
+	                {{ completed_parts_of_works_form.internalID.label_tag }}
+	                {{ completed_parts_of_works_form.internalID }}
+	                {{ completed_parts_of_works_form.internalID.errors }}
+
+	                {{ completed_parts_of_works_form.category.label_tag }}
+	                {{ completed_parts_of_works_form.category }}
+	                {{ completed_parts_of_works_form.category.errors }}
+
+	                {{ completed_parts_of_works_form.work_detail.label_tag }}
+	                {{ completed_parts_of_works_form.work_detail }}
+	                {{ completed_parts_of_works_form.work_detail.errors }}
+
+
+	                <button type="submit">Submit Completed Part of Larger Work</button>
+	            </form>
+	        </div>
+
+	        <!-- ProfessionalResources Subsection -->
+	        <div class="subsection-header" onclick="toggleSection('professional_resources_form')">Professional Resources Form</div>
+            <div id="professional_resources_form" class="subsection-content">
+                <form method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="form_type" value="professional_resources_form">
+                    <!-- Fields for ProfessionalResources -->
+                    {{ professional_resources_form.faculty_id.label_tag }}
+                    {{ professional_resources_form.faculty_id }}
+                    {{ professional_resources_form.faculty_id.errors }}
+                    {{ professional_resources_form.period_start.label_tag }}
+                    {{ professional_resources_form.period_start }}
+                    {{ professional_resources_form.period_start.errors }}
+                    {{ professional_resources_form.internalID.label_tag }}
+                    {{ professional_resources_form.internalID }}
+                    {{ professional_resources_form.internalID.errors }}
+                    {{ professional_resources_form.description.label_tag }}
+                    {{ professional_resources_form.description }}
+                    {{ professional_resources_form.description.errors }}
+                    <button type="submit">Submit Professional Resources</button>
+                </form>
+            </div>
+
+	        <div class="subsection-header" onclick="toggleSection('intellectual_property_form')">Intellectual Property Form</div>
+            <div id="intellectual_property_form" class="subsection-content">
+                <form method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="form_type" value="intellectual_property_form">
+                    <!-- Fields for IntellectualProperty -->
+                    {{ intellectual_property_form.faculty_id.label_tag }}
+                    {{ intellectual_property_form.faculty_id }}
+                    {{ intellectual_property_form.faculty_id.errors }}
+                    {{ intellectual_property_form.period_start.label_tag }}
+                    {{ intellectual_property_form.period_start }}
+                    {{ intellectual_property_form.period_start.errors }}
+                    {{ intellectual_property_form.internalID.label_tag }}
+                    {{ intellectual_property_form.internalID }}
+                    {{ intellectual_property_form.internalID.errors }}
+                    {{ intellectual_property_form.description.label_tag }}
+                    {{ intellectual_property_form.description }}
+                    {{ intellectual_property_form.description.errors }}
+                    <button type="submit">Submit Intellectual Property</button>
+                </form>
+            </div>
+
+
+	        <!-- ContractsGrantsFellowships Subsection -->
+	        <div class="subsection-header" onclick="toggleSection('contracts_grants_fellowships_form')">Contracts, Grants, Fellowships Form</div>
+            <div id="contracts_grants_fellowships_form" class="subsection-content">
+                <form method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="form_type" value="contracts_grants_fellowships_form">
+                    {{ contracts_grants_fellowships_form.faculty_id.label_tag }}
+                    {{ contracts_grants_fellowships_form.faculty_id }}
+                    {{ contracts_grants_fellowships_form.faculty_id.errors }}
+                    {{ contracts_grants_fellowships_form.period_start.label_tag }}
+                    {{ contracts_grants_fellowships_form.period_start }}
+                    {{ contracts_grants_fellowships_form.period_start.errors }}
+                    {{ contracts_grants_fellowships_form.internalID.label_tag }}
+                    {{ contracts_grants_fellowships_form.internalID }}
+                    {{ contracts_grants_fellowships_form.internalID.errors }}
+                    {{ contracts_grants_fellowships_form.previously_submitted.label_tag }}
+                    {{ contracts_grants_fellowships_form.previously_submitted }}
+                    {{ contracts_grants_fellowships_form.previously_submitted.errors }}
+                    {{ contracts_grants_fellowships_form.funding_source.label_tag }}
+                    {{ contracts_grants_fellowships_form.funding_source }}
+                    {{ contracts_grants_fellowships_form.funding_source.errors }}
+                    {{ contracts_grants_fellowships_form.number_or_title.label_tag }}
+                    {{ contracts_grants_fellowships_form.number_or_title }}
+                    {{ contracts_grants_fellowships_form.number_or_title.errors }}
+                    {{ contracts_grants_fellowships_form.role.label_tag }}
+                    {{ contracts_grants_fellowships_form.role }}
+                    {{ contracts_grants_fellowships_form.role.errors }}
+                    {{ contracts_grants_fellowships_form.amount.label_tag }}
+                    {{ contracts_grants_fellowships_form.amount }}
+                    {{ contracts_grants_fellowships_form.amount.errors }}
+                    <button type="submit">Submit Contracts, Grants, Fellowships</button>
+                </form>
+            </div>
+
+
+	        <!-- NonFinancialResources Subsection -->
+	        <div class="subsection-header" onclick="toggleSection('non_financial_resources_form')">Non-Financial Resources Form</div>
+            <div id="non_financial_resources_form" class="subsection-content">
+                <form method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="form_type" value="non_financial_resources_form">
+                    {{ non_financial_resources_form.faculty_id.label_tag }}
+                    {{ non_financial_resources_form.faculty_id }}
+                    {{ non_financial_resources_form.faculty_id.errors }}
+                    {{ non_financial_resources_form.period_start.label_tag }}
+                    {{ non_financial_resources_form.period_start }}
+                    {{ non_financial_resources_form.period_start.errors }}
+                    {{ non_financial_resources_form.internalID.label_tag }}
+                    {{ non_financial_resources_form.internalID }}
+                    {{ non_financial_resources_form.internalID.errors }}
+                    {{ non_financial_resources_form.previously_submitted.label_tag }}
+                    {{ non_financial_resources_form.previously_submitted }}
+                    {{ non_financial_resources_form.previously_submitted.errors }}
+                    {{ non_financial_resources_form.funding_source.label_tag }}
+                    {{ non_financial_resources_form.funding_source }}
+                    {{ non_financial_resources_form.funding_source.errors }}
+                    {{ non_financial_resources_form.number_or_title.label_tag }}
+                    {{ non_financial_resources_form.number_or_title }}
+                    {{ non_financial_resources_form.number_or_title.errors }}
+                    {{ non_financial_resources_form.role.label_tag }}
+                    {{ non_financial_resources_form.role }}
+                    {{ non_financial_resources_form.role.errors }}
+                    {{ non_financial_resources_form.perks_description.label_tag }}
+                    {{ non_financial_resources_form.perks_description }}
+                    {{ non_financial_resources_form.perks_description.errors }}
+                    <button type="submit">Submit Non-Financial Resources</button>
+                </form>
+            </div>
+
+			<!-- ProfDevResearchActivities Subsection -->
+	        <div class="subsection-header" onclick="toggleSection('prof_dev_research_activities_form')">Professional Development Research Activities Form</div>
+            <div id="prof_dev_research_activities_form" class="subsection-content">
+                <form method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="form_type" value="prof_dev_research_activities_form">
+                    {{ prof_dev_research_activities_form.faculty_id.label_tag }}
+                    {{ prof_dev_research_activities_form.faculty_id }}
+                    {{ prof_dev_research_activities_form.faculty_id.errors }}
+                    {{ prof_dev_research_activities_form.period_start.label_tag }}
+                    {{ prof_dev_research_activities_form.period_start }}
+                    {{ prof_dev_research_activities_form.period_start.errors }}
+                    {{ prof_dev_research_activities_form.internalID.label_tag }}
+                    {{ prof_dev_research_activities_form.internalID }}
+                    {{ prof_dev_research_activities_form.internalID.errors }}
+                    {{ prof_dev_research_activities_form.description.label_tag }}
+                    {{ prof_dev_research_activities_form.description }}
+                    {{ prof_dev_research_activities_form.description.errors }}
+                    <button type="submit">Submit Professional Development Research Activities</button>
+                </form>
+            </div>
+
+
+        <!-- DiversityResearchActivities Subsection -->
+            <div class="subsection-header" onclick="toggleSection('diversity_research_activities_form')">Diversity Research Activities Form</div>
+            <div id="diversity_research_activities_form" class="subsection-content">
+                <form method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="form_type" value="diversity_research_activities_form">
+                    {{ diversity_research_activities_form.faculty_id.label_tag }}
+                    {{ diversity_research_activities_form.faculty_id }}
+                    {{ diversity_research_activities_form.faculty_id.errors }}
+                    {{ diversity_research_activities_form.period_start.label_tag }}
+                    {{ diversity_research_activities_form.period_start }}
+                    {{ diversity_research_activities_form.period_start.errors }}
+                    {{ diversity_research_activities_form.internalID.label_tag }}
+                    {{ diversity_research_activities_form.internalID }}
+                    {{ diversity_research_activities_form.internalID.errors }}
+                    {{ diversity_research_activities_form.description.label_tag }}
+                    {{ diversity_research_activities_form.description }}
+                    {{ diversity_research_activities_form.description.errors }}
+                    <button type="submit">Submit Diversity Research Activities</button>
+                </form>
+            </div>
+
+	    </div>    	
+       <!-- Section 4: Professional Recognition and Activity -->
+	<div class="section-header" onclick="toggleSection('section4')">Section 4: Professional Recognition and Activity</div>
+	<div id="section4" class="section-content">
+
+	    <!-- HonorsAward Subsection -->
+	    <div class="subsection-header" onclick="toggleSection('honors_award_form')">Honors and Awards Form</div>
+        <div id="honors_award_form" class="subsection-content">
+            <form method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="form_type" value="honors_award_form">
+                {{ honors_award_form.faculty_id.label_tag }}
+                {{ honors_award_form.faculty_id }}
+                {{ honors_award_form.faculty_id.errors }}
+                {{ honors_award_form.internalID.label_tag }}
+                {{ honors_award_form.internalID }}
+                {{ honors_award_form.internalID.errors }}
+                {{ honors_award_form.period_start.label_tag }}
+                {{ honors_award_form.period_start }}
+                {{ honors_award_form.period_start.errors }}
+                {{ honors_award_form.period_end.label_tag }}
+                {{ honors_award_form.period_end }}
+                {{ honors_award_form.period_end.errors }}
+                {{ honors_award_form.description.label_tag }}
+                {{ honors_award_form.description }}
+                {{ honors_award_form.description.errors }}
+                <button type="submit">Submit Honors and Awards</button>
+            </form>
+        </div>
+
+
+	    <!-- Membership Subsection -->
+        <div class="subsection-header" onclick="toggleSection('membership_form')">Membership Form</div>
+        <div id="membership_form" class="subsection-content">
+            <form method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="form_type" value="membership_form">
+                {{ membership_form.faculty_id.label_tag }}
+                {{ membership_form.faculty_id }}
+                {{ membership_form.faculty_id.errors }}
+                {{ membership_form.internalID.label_tag }}
+                {{ membership_form.internalID }}
+                {{ membership_form.internalID.errors }}
+                {{ membership_form.period_start.label_tag }}
+                {{ membership_form.period_start }}
+                {{ membership_form.period_start.errors }}
+                {{ membership_form.period_end.label_tag }}
+                {{ membership_form.period_end }}
+                {{ membership_form.period_end.errors }}
+                {{ membership_form.endpresent.label_tag }}
+                {{ membership_form.endpresent }}
+                {{ membership_form.endpresent.errors }}
+                {{ membership_form.description.label_tag }}
+                {{ membership_form.description }}
+                {{ membership_form.description.errors }}
+                <button type="submit">Submit Membership</button>
+            </form>
+        </div>
+
+
+	    <!-- ProfessionalActivity Subsection -->
+        <div class="subsection-header" onclick="toggleSection('professional_activity_form')">Professional Activity Form</div>
+        <div id="professional_activity_form" class="subsection-content">
+            <form method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="form_type" value="professional_activity_form">
+                {{ professional_activity_form.faculty_id.label_tag }}
+                {{ professional_activity_form.faculty_id }}
+                {{ professional_activity_form.faculty_id.errors }}
+                {{ professional_activity_form.internalID.label_tag }}
+                {{ professional_activity_form.internalID }}
+                {{ professional_activity_form.internalID.errors }}
+                {{ professional_activity_form.period_start.label_tag }}
+                {{ professional_activity_form.period_start }}
+                {{ professional_activity_form.period_start.errors }}
+                {{ professional_activity_form.period_end.label_tag }}
+                {{ professional_activity_form.period_end }}
+                {{ professional_activity_form.period_end.errors }}
+                {{ professional_activity_form.description.label_tag }}
+                {{ professional_activity_form.description }}
+                {{ professional_activity_form.description.errors }}
+                <!-- Add fields for invitedEduGov, invitedProf, acceptedEduGov, etc. -->
+                <button type="submit">Submit Professional Activity</button>
+            </form>
+        </div>
+
+
+	    <!-- ProfPublicService Subsection -->
+        <div class="subsection-header" onclick="toggleSection('prof_public_service_form')">Professional Public Service Form</div>
+        <div id="prof_public_service_form" class="subsection-content">
+            <form method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="form_type" value="prof_public_service_form">
+                {{ prof_public_service_form.faculty_id.label_tag }}
+                {{ prof_public_service_form.faculty_id }}
+                {{ prof_public_service_form.faculty_id.errors }}
+                {{ prof_public_service_form.internalID.label_tag }}
+                {{ prof_public_service_form.internalID }}
+                {{ prof_public_service_form.internalID.errors }}
+                {{ prof_public_service_form.period_start.label_tag }}
+                {{ prof_public_service_form.period_start }}
+                {{ prof_public_service_form.period_start.errors }}
+                {{ prof_public_service_form.period_end.label_tag }}
+                {{ prof_public_service_form.period_end }}
+                {{ prof_public_service_form.period_end.errors }}
+                {{ prof_public_service_form.description.label_tag }}
+                {{ prof_public_service_form.description }}
+                {{ prof_public_service_form.description.errors }}
+                {{ prof_public_service_form.profSocOutsideInst.label_tag }}
+                {{ prof_public_service_form.profSocOutsideInst }}
+                {{ prof_public_service_form.profSocOutsideInst.errors }}
+                {{ prof_public_service_form.journalEdit.label_tag }}
+                {{ prof_public_service_form.journalEdit }}
+                {{ prof_public_service_form.journalEdit.errors }}
+                {{ prof_public_service_form.reviewer.label_tag }}
+                {{ prof_public_service_form.reviewer }}
+                {{ prof_public_service_form.reviewer.errors }}
+                {{ prof_public_service_form.memberReviewBoard.label_tag }}
+                {{ prof_public_service_form.memberReviewBoard }}
+                {{ prof_public_service_form.memberReviewBoard.errors }}
+                {{ prof_public_service_form.adhocService.label_tag }}
+                {{ prof_public_service_form.adhocService }}
+                {{ prof_public_service_form.adhocService.errors }}
+                {{ prof_public_service_form.consulting.label_tag }}
+                {{ prof_public_service_form.consulting }}
+                {{ prof_public_service_form.consulting.errors }}
+                {{ prof_public_service_form.communityService.label_tag }}
+                {{ prof_public_service_form.communityService }}
+                {{ prof_public_service_form.communityService.errors }}
+                <button type="submit">Submit Professional Public Service</button>
+            </form>
+        </div>
+
+
+	    <!-- ProfDevService Subsection -->
+        <div class="subsection-header" onclick="toggleSection('prof_dev_service_form')">Professional Development Service Form</div>
+        <div id="prof_dev_service_form" class="subsection-content">
+            <form method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="form_type" value="prof_dev_service_form">
+                {{ prof_dev_service_form.faculty_id.label_tag }}
+                {{ prof_dev_service_form.faculty_id }}
+                {{ prof_dev_service_form.faculty_id.errors }}
+                {{ prof_dev_service_form.internalID.label_tag }}
+                {{ prof_dev_service_form.internalID }}
+                {{ prof_dev_service_form.internalID.errors }}
+                {{ prof_dev_service_form.period_start.label_tag }}
+                {{ prof_dev_service_form.period_start }}
+                {{ prof_dev_service_form.period_start.errors }}
+                {{ prof_dev_service_form.period_end.label_tag }}
+                {{ prof_dev_service_form.period_end }}
+                {{ prof_dev_service_form.period_end.errors }}
+                {{ prof_dev_service_form.description.label_tag }}
+                {{ prof_dev_service_form.description }}
+                {{ prof_dev_service_form.description.errors }}
+                <button type="submit">Submit Professional Development Service</button>
+            </form>
+        </div>
+
+
+	    <!-- DiversityService Subsection -->
+        <div class="subsection-header" onclick="toggleSection('diversity_service_form')">Diversity Service Form</div>
+        <div id="diversity_service_form" class="subsection-content">
+            <form method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="form_type" value="diversity_service_form">
+                {{ diversity_service_form.faculty_id.label_tag }}
+                {{ diversity_service_form.faculty_id }}
+                {{ diversity_service_form.faculty_id.errors }}
+                {{ diversity_service_form.internalID.label_tag }}
+                {{ diversity_service_form.internalID }}
+                {{ diversity_service_form.internalID.errors }}
+                {{ diversity_service_form.period_start.label_tag }}
+                {{ diversity_service_form.period_start }}
+                {{ diversity_service_form.period_start.errors }}
+                {{ diversity_service_form.period_end.label_tag }}
+                {{ diversity_service_form.period_end }}
+                {{ diversity_service_form.period_end.errors }}
+                {{ diversity_service_form.description.label_tag }}
+                {{ diversity_service_form.description }}
+                {{ diversity_service_form.description.errors }}
+                <button type="submit">Submit Diversity Service</button>
+            </form>
+        </div>
+
+	</div>
+        <!-- Section 5 -->
+        <div class="section-header" onclick="toggleSection('section5')">Section 5: University and Systemwide Service</div>
+		<div id="section5" class="section-content">
+
+	    <!-- UniversitySystemwide Subsection -->
+        <div class="subsection-header" onclick="toggleSection('university_systemwide_form')">University/Systemwide Service Form</div>
+        <div id="university_systemwide_form" class="subsection-content">
+            <form method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="form_type" value="university_systemwide_form">
+                {{ university_systemwide_form.faculty_id.label_tag }}
+                {{ university_systemwide_form.faculty_id }}
+                {{ university_systemwide_form.faculty_id.errors }}
+                {{ university_systemwide_form.internalID.label_tag }}
+                {{ university_systemwide_form.internalID }}
+                {{ university_systemwide_form.internalID.errors }}
+                {{ university_systemwide_form.period_start.label_tag }}
+                {{ university_systemwide_form.period_start }}
+                {{ university_systemwide_form.period_start.errors }}
+                {{ university_systemwide_form.period_end.label_tag }}
+                {{ university_systemwide_form.period_end }}
+                {{ university_systemwide_form.period_end.errors }}
+                {{ university_systemwide_form.position_description.label_tag }}
+                {{ university_systemwide_form.position_description }}
+                {{ university_systemwide_form.position_description.errors }}
+                <button type="submit">Submit University/Systemwide Service</button>
+            </form>
+        </div>
+
+
+	    <!-- Campus Subsection -->
+        <div class="subsection-header" onclick="toggleSection('campus_form')">Campus Service Form</div>
+        <div id="campus_form" class="subsection-content">
+            <form method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="form_type" value="campus_form">
+                {{ campus_form.faculty_id.label_tag }}
+                {{ campus_form.faculty_id }}
+                {{ campus_form.faculty_id.errors }}
+                {{ campus_form.internalID.label_tag }}
+                {{ campus_form.internalID }}
+                {{ campus_form.internalID.errors }}
+                {{ campus_form.period_start.label_tag }}
+                {{ campus_form.period_start }}
+                {{ campus_form.period_start.errors }}
+                {{ campus_form.period_end.label_tag }}
+                {{ campus_form.period_end }}
+                {{ campus_form.period_end.errors }}
+                {{ campus_form.position_description.label_tag }}
+                {{ campus_form.position_description }}
+                {{ campus_form.position_description.errors }}
+                <button type="submit">Submit Campus Service</button>
+            </form>
+        </div>
+
+
+		<!-- School Subsection -->
+        <div class="subsection-header" onclick="toggleSection('school_form')">School Service Form</div>
+        <div id="school_form" class="subsection-content">
+            <form method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="form_type" value="school_form">
+                {{ school_form.faculty_id.label_tag }}
+                {{ school_form.faculty_id }}
+                {{ school_form.faculty_id.errors }}
+                {{ school_form.internalID.label_tag }}
+                {{ school_form.internalID }}
+                {{ school_form.internalID.errors }}
+                {{ school_form.period_start.label_tag }}
+                {{ school_form.period_start }}
+                {{ school_form.period_start.errors }}
+                {{ school_form.period_end.label_tag }}
+                {{ school_form.period_end }}
+                {{ school_form.period_end.errors }}
+                {{ school_form.position_description.label_tag }}
+                {{ school_form.position_description }}
+                {{ school_form.position_description.errors }}
+                <button type="submit">Submit School Service</button>
+            </form>
+        </div>
+
+
+		<!-- Department Subsection -->
+        <div class="subsection-header" onclick="toggleSection('department_form')">Department Service Form</div>
+        <div id="department_form" class="subsection-content">
+            <form method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="form_type" value="department_form">
+                {{ department_form.faculty_id.label_tag }}
+                {{ department_form.faculty_id }}
+                {{ department_form.faculty_id.errors }}
+                {{ department_form.internalID.label_tag }}
+                {{ department_form.internalID }}
+                {{ department_form.internalID.errors }}
+                {{ department_form.period_start.label_tag }}
+                {{ department_form.period_start }}
+                {{ department_form.period_start.errors }}
+                {{ department_form.period_end.label_tag }}
+                {{ department_form.period_end }}
+                {{ department_form.period_end.errors }}
+                {{ department_form.position_description.label_tag }}
+                {{ department_form.position_description }}
+                {{ department_form.position_description.errors }}
+                <button type="submit">Submit Department Service</button>
+            </form>
+        </div>
+
+
+		<!-- ProfessionalDevelopment Subsection -->
+		<div class="subsection-header" onclick="toggleSection('professional_developement_form')">Professional Development Service Form</div>
+		<div id="professional_developement_form" class="subsection-content">
+		    <form method="POST">
+		        {% csrf_token %}
+		        <input type="hidden" name="form_type" value="professional_developement_form">
+		        {{ professional_developement_form.faculty_id.label_tag }}
+		        {{ professional_developement_form.faculty_id }}
+		        {{ professional_developement_form.faculty_id.errors }}
+		        {{ professional_developement_form.internalID.label_tag }}
+		        {{ professional_developement_form.internalID }}
+		        {{ professional_developement_form.internalID.errors }}
+		        {{ professional_developement_form.period_start.label_tag }}
+		        {{ professional_developement_form.period_start }}
+		        {{ professional_developement_form.period_start.errors }}
+		        {{ professional_developement_form.period_end.label_tag }}
+		        {{ professional_developement_form.period_end }}
+		        {{ professional_developement_form.period_end.errors }}
+		        {{ professional_developement_form.position_description.label_tag }}
+		        {{ professional_developement_form.position_description }}
+		        {{ professional_developement_form.position_description.errors }}
+		        <button type="submit">Submit Professional Development Service</button>
+		    </form>
+		</div>
+
+		<!-- DiversityActivities Subsection -->
+		<div class="subsection-header" onclick="toggleSection('diversity_activities_form')">Diversity Activities Service Form</div>
+		<div id="diversity_activities_form" class="subsection-content">
+		    <form method="POST">
+		        {% csrf_token %}
+		        <input type="hidden" name="form_type" value="diversity_activities_form">
+		        {{ diversity_activities_form.faculty_id.label_tag }}
+		        {{ diversity_activities_form.faculty_id }}
+		        {{ diversity_activities_form.faculty_id.errors }}
+		        {{ diversity_activities_form.internalID.label_tag }}
+		        {{ diversity_activities_form.internalID }}
+		        {{ diversity_activities_form.internalID.errors }}
+		        {{ diversity_activities_form.period_start.label_tag }}
+		        {{ diversity_activities_form.period_start }}
+		        {{ diversity_activities_form.period_start.errors }}
+		        {{ diversity_activities_form.period_end.label_tag }}
+		        {{ diversity_activities_form.period_end }}
+		        {{ diversity_activities_form.period_end.errors }}
+		        {{ diversity_activities_form.position_description.label_tag }}
+		        {{ diversity_activities_form.position_description }}
+		        {{ diversity_activities_form.position_description.errors }}
+		        <button type="submit">Submit Diversity Activities Service</button>
+		    </form>
+		</div>
+
+        <button type="submit" class="btn btn-success">Save</button>
+</div>
+
+<script>
+function toggleSection(sectionId) {
+    var section = document.getElementById(sectionId);
+    if (section.style.display === "none" || section.style.display === "") {
+        section.style.display = "block";
+    } else {
+        section.style.display = "none";
+    }
+}
+
+// Initialize all sections to be collapsed
+document.addEventListener('DOMContentLoaded', (event) => {
+    var sections = document.querySelectorAll('.section-content');
+    sections.forEach(function(section) {
+        section.style.display = "none";
+    });
+});
+</script>
+
+<style>
+.section-header {
+    background-color: #f0f0f0;
+    padding: 10px;
+    margin-top: 5px;
+    cursor: pointer;
+    border: 1px solid #ddd;
+}
+.section-content {
+    display: none;
+    padding: 10px;
+    border: 1px solid #ddd;
+}
+.subsection-header {
+    background-color: #f0f0f0;
+    padding: 10px;
+    margin-top: 5px;
+    cursor: pointer;
+    border: 1px solid #ddd;
+}
+.subsection-content {
+    display: none;
+    padding: 10px;
+    border: 1px solid #ddd;
+}
+</style>
+
+{% endblock %}

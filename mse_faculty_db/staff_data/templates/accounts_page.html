@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h2>Accounts</h2>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Name</th>
+      <th scope="col">Email</th>
+      <th scope="col">Department</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for faculty_id in faculty_ids %}
+    <tr onclick="navigateToFacultyEntries('{{ faculty_id.uuid }}');" style="cursor: pointer;">
+      <td>{{ faculty_id.name }}</td>
+      <td>{{ faculty_id.email }}</td>
+      <td>{{ faculty_id.department }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<script>
+  function navigateToFacultyEntries(facultyId) {
+    window.location.href = "/faculty/" + facultyId + "/";
+  }
+</script>
+
+{% endblock %}

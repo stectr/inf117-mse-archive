@@ -1,0 +1,661 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<!-- Add/Update Info Button -->
+<div style="text-align: right; margin-bottom: 20px;">
+    <a href="{% url 'input_page' %}" class="btn btn-info">Add/Update Info</a>
+    <button id="runScriptBtn" class="btn btn-success">Download PDF</button>
+</div>
+
+
+
+<div id="dateSelector" style="display: block; text-align: right">
+  <label for="dateStart">Date Start:</label>
+  <input type="date" id="dateStart">
+  <label for="dateEnd">Date End:</label>
+  <input type="date" id="dateEnd">
+</div>
+
+<script>
+  document.getElementById('runScriptBtn').addEventListener('click', function () {
+      // Toggle date selector
+      // var dateSelector = document.getElementById('dateSelector');
+      // dateSelector.style.display = (dateSelector.style.display === 'none') ? 'block' : 'none';
+
+      // Get faculty name
+      var facultyName = "{{ faculty.name }}";
+
+      var dateStart = document.getElementById('dateStart').value;
+      var dateEnd = document.getElementById('dateEnd').value;
+      // Prepare JSON data
+      var jsonData = {
+          "date_start": dateStart,
+          "date_end": dateEnd,
+          "name": facultyName
+      };
+
+      // AJAX request to run the Python script
+      var xhr = new XMLHttpRequest();
+      xhr.open('POST', '/run_script/', true);
+      xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+      xhr.responseType = 'blob'; // Set the responseType to 'blob' for binary data
+      xhr.onload = function () {
+          if (xhr.status === 200) {
+              // Create a Blob from the response
+              var blob = new Blob([xhr.response], { type: 'application/pdf' });
+
+              // Create a temporary link element
+              var link = document.createElement('a');
+              link.href = window.URL.createObjectURL(blob);
+
+              // Set the download attribute and trigger a click event to start the download
+              link.download = 'result.pdf';
+              link.click();
+          } else {
+              console.error('Error in AJAX request:', xhr.status, xhr.statusText);
+          }
+      };
+      xhr.send(JSON.stringify(jsonData));
+  });
+</script>
+
+<h2>{{ faculty.name }}'s Entries</h2>
+
+
+<style>
+    .collapsible {
+        cursor: pointer;
+        background-color: #eee;
+        padding: 18px;
+        width: 100%;
+        border: none;
+        text-align: left;
+        outline: none;
+        font-size: 15px;
+        transition: 0.4s;
+    }
+
+    .active, .collapsible:hover {
+        background-color: #ccc;
+    }
+
+    .content, .nested-content {
+        padding: 0 18px;
+        display: none;
+        overflow: hidden;
+        background-color: #f9f9f9;
+        margin-bottom: 5px;
+    }
+
+    .nested-collapsible {
+        background-color: #f2f2f2;
+        margin: 5px 0;
+    }
+</style>
+
+<script>
+    function toggleSection(sectionId) {
+        var section = document.getElementById(sectionId);
+        section.style.display = (section.style.display === "block" ? "none" : "block");
+    }
+</script>
+
+<!-- Section 1: Employment History-->
+<button class="collapsible" onclick="toggleSection('section1')">Section 1: Employment History</button>
+<div id="section1" class="content">
+    <button class="collapsible nested-collapsible" onclick="toggleSection('employmentHistory')">Employment History</button>
+    <div id="employmentHistory" class="nested-content">
+		<ul>
+		  {% for entry in employment_entries %}
+		    <li>{{ entry.title_rank }} - {{ entry.department }} ({{ entry.period_start|date:"F d, Y" }} to {{ entry.period_end|date:"F d, Y" }})</li>
+		  {% endfor %}
+		</ul>
+	</div>
+	<button class="collapsible nested-collapsible" onclick="toggleSection('otherEmployment')">Other Employment</button>
+    <div id="otherEmployment" class="nested-content">
+	<ul>
+	  {% for entry in other_employment_entries %}
+	    <li>{{ entry.position_description }} ({{ entry.period_start|date:"F d, Y" }} to {{ entry.period_end|date:"F d, Y" }})</li>
+	  {% endfor %}
+	</ul>
+	</div>
+</div>
+
+
+
+
+<!-- Section 2: Teaching Activity During Review Period -->
+<button class="collapsible" onclick="toggleSection('section2')">Section 2: Teaching Activity During Review Period</button>
+<div id="section2" class="content">
+    <!-- UCI Course Entries -->
+    <button class="collapsible nested-collapsible" onclick="toggleSection('uciCourseEntries')">UCI Course Entries</button>
+    <div id="uciCourseEntries" class="nested-content">
+        <ul>
+          {% for entry in uci_course_entries %}
+            <li>{{ entry.courseTitle }} - {{ entry.period_start}} to {{entry.period_end}}</li>
+          {% endfor %}
+        </ul>
+    </div>
+
+    <!-- Doctoral Students -->
+    <button class="collapsible nested-collapsible" onclick="toggleSection('doctoralStudents')">Doctoral Students</button>
+    <div id="doctoralStudents" class="nested-content">
+        <ul>
+          {% for student in doctoral_students %}
+            <li>
+              Name: {{ student.studentName }},
+              Period Start: {{ student.period_start }},
+              End Year: {% if student.endpresent %}Present{% else %}{{ student.period_end }}{% endif %},
+              Received Ph.D: {% if student.receivedPHD %}Yes{% else %}No{% endif %}
+            </li>
+          {% endfor %}
+        </ul>
+    </div>
+
+    <!-- Master's Students -->
+    <button class="collapsible nested-collapsible" onclick="toggleSection('mastersStudents')">Master's Students</button>
+    <div id="mastersStudents" class="nested-content">
+        <ul>
+          {% for student in master_students %}
+            <li>
+              Name: {{ student.studentName }},
+              Start Year: {{ student.period_start }},
+              End Year: {% if student.endpresent %}Present{% else %}{{ student.period_end }}{% endif %},
+              Role: {{ student.role }},
+              Department: {{ student.department }}
+              {% if student.comments %}, Comments: {{ student.comments }}{% endif %}
+            </li>
+          {% endfor %}
+        </ul>
+    </div>
+
+    <!-- Postdoctoral Scholars -->
+    <button class="collapsible nested-collapsible" onclick="toggleSection('postdocScholars')">Postdoctoral Scholars</button>
+    <div id="postdocScholars" class="nested-content">
+        <ul>
+          {% for scholar in postdoc_students %}
+            <li>
+              Name: {{ scholar.studentName }},
+              Start Year: {{ scholar.period_start }},
+              End Year: {% if scholar.endpresent %}Present{% else %}{{ scholar.period_end }}{% endif %},
+              Role: {{ scholar.role }},
+              Department: {{ scholar.department }}
+              {% if scholar.comments %}, Comments: {{ scholar.comments }}{% endif %}
+            </li>
+          {% endfor %}
+        </ul>
+    </div>
+
+    <!-- Undergraduate Student Research Supervision -->
+    <button class="collapsible nested-collapsible" onclick="toggleSection('undergradResearch')">Undergraduate Student Research Supervision</button>
+    <div id="undergradResearch" class="nested-content">
+        <ul>
+          {% for research in undergrad_research_entries %}
+            <li>
+              Name: {{ research.studentName }},
+              Start Year: {{ research.period_start }},
+              End Year: {% if research.endpresent %}Present{% else %}{{ research.period_end }}{% endif %},
+              Role: {{ research.role }},
+              Department: {{ research.department }}
+              {% if research.comments %}, Comments: {{ research.comments }}{% endif %}
+            </li>
+          {% endfor %}
+        </ul>
+    </div>
+
+    <!-- Other Research or Teaching Supervision -->
+    <button class="collapsible nested-collapsible" onclick="toggleSection('otherResearch')">Other Research or Teaching Supervision</button>
+    <div id="otherResearch" class="nested-content">
+        <ul>
+          {% for research in other_research_entries %}
+            <li>
+              Name: {{ research.studentName }},
+              Start Year: {{ research.period_start }},
+              End Year: {% if research.endpresent %}Present{% else %}{{ research.period_end }}{% endif %},
+              Role: {{ research.role }},
+              Department: {{ research.department }}
+              {% if research.comments %}, Comments: {{ research.comments }}{% endif %}
+            </li>
+          {% endfor %}
+        </ul>
+    </div>
+
+    <!-- Teaching Awards -->
+    <button class="collapsible nested-collapsible" onclick="toggleSection('teachingAwards')">Teaching Awards</button>
+    <div id="teachingAwards" class="nested-content">
+        <ul>
+          {% for award in teaching_award_entries %}
+            <li>
+              {% if award.dateinput %}
+                Date: {{ award.dateinput }},
+              {% else %}
+                Start Date: {{ award.period_start|date:"F d, Y" }},
+                End Date: {{ award.period_end|date:"F d, Y" }},
+              {% endif %}
+              Description: {{ award.description }}
+            </li>
+          {% endfor %}
+        </ul>
+    </div>
+
+    <!-- Teaching Innovations -->
+    <button class="collapsible nested-collapsible" onclick="toggleSection('teachingInnovations')">Teaching Innovations</button>
+    <div id="teachingInnovations" class="nested-content">
+        <ul>
+          {% for innovation in teaching_innovation_entries %}
+            <li>
+              {% if innovation.dateinput %}
+                Date: {{ innovation.dateinput }},
+              {% else %}
+                Start Date: {{ innovation.period_start|date:"F d, Y" }},
+                End Date: {{ innovation.period_end|date:"F d, Y" }},
+              {% endif %}
+              Description: {{ innovation.description }}
+            </li>
+          {% endfor %}
+        </ul>
+    </div>
+
+    <!-- Professional Development Activities Related to Teaching -->
+    <button class="collapsible nested-collapsible" onclick="toggleSection('profDevTeaching')">Professional Development Activities Related to Teaching</button>
+    <div id="profDevTeaching" class="nested-content">
+        <ul>
+          {% for activity in prof_development_teaching_entries %}
+            <li>
+              {% if activity.dateinput %}
+                Date: {{ activity.dateinput }},
+              {% else %}
+                Start Date: {{ activity.period_start|date:"F d, Y" }},
+                End Date: {{ activity.period_end|date:"F d, Y" }},
+              {% endif %}
+              Description: {{ activity.description }}
+            </li>
+          {% endfor %}
+        </ul>
+    </div>
+
+    <!-- Diversity Activities Related to Teaching -->
+    <button class="collapsible nested-collapsible" onclick="toggleSection('diversityTeaching')">Diversity Activities Related to Teaching</button>
+    <div id="diversityTeaching" class="nested-content">
+        <ul>
+          {% for activity in diversity_teaching_entries %}
+            <li>
+              {% if activity.dateinput %}
+                Date: {{ activity.dateinput }},
+              {% else %}
+                Start Date: {{ activity.period_start|date:"F d, Y" }},
+                End Date: {{ activity.period_end|date:"F d, Y" }},
+              {% endif %}
+              Description: {{ activity.description }}
+            </li>
+          {% endfor %}
+        </ul>
+    </div>
+</div>
+
+
+<!-- Section 3: Research and Creative Activity During Review Period -->
+<button class="collapsible" onclick="toggleSection('section3')">Section 3: Research and Creative Activity During Review Period</button>
+<div id="section3" class="content">
+    <!-- Intellectual Contributions (Not Credited in a Prior Review) -->
+    <button class="collapsible nested-collapsible" onclick="toggleSection('intellectualContributions')">Intellectual Contributions (Not Credited in a Prior Review)</button>
+    <div id="intellectualContributions" class="nested-content">
+        <ul>
+          {% for contribution in intellectual_contributions_entries %}
+            <li>
+              Category: {{ contribution.category }},
+              Publication: {{ contribution.publication_citation }},
+              Start Date: {{ contribution.period_start|date:"F d, Y" }},
+              End Date: {{ contribution.period_end|date:"F d, Y" }},
+            </li>
+          {% endfor %}
+        </ul>
+    </div>
+
+    <!-- Artistic and Professional Performances and Exhibits (Not Credited in a Prior Review) -->
+    <button class="collapsible nested-collapsible" onclick="toggleSection('notCreditedArtistic')">Artistic and Professional Performances and Exhibits (Not Credited in a Prior Review)</button>
+    <div id="notCreditedArtistic" class="nested-content">
+        <ul>
+          {% for performance in not_credited_artistic_entries %}
+            <li>
+              Category: {{ performance.category }},
+              Creative Work: {{ performance.creativeWork }},
+              Start Date: {{ performance.period_start|date:"F d, Y" }},
+              End Date: {{ performance.period_end|date:"F d, Y" }},            
+            </li>
+          {% endfor %}
+        </ul>
+    </div>
+
+    <!-- Intellectual Contributions (Previously Submitted in a Prior Review) -->
+    <button class="collapsible nested-collapsible" onclick="toggleSection('previousContributions')">Intellectual Contributions (Previously Submitted in a Prior Review)</button>
+    <div id="previousContributions" class="nested-content">
+        <ul>
+          {% for previous_contribution in previous_contributions_entries %}
+            <li>
+              Category: {{ previous_contribution.category }},
+              Publication: {{ previous_contribution.publication_citation }},
+              Start Date: {{ previous_contribution.period_start|date:"F d, Y" }},
+              End Date: {{ previous_contribution.period_end|date:"F d, Y" }},            
+            </li>
+          {% endfor %}
+        </ul>
+    </div>
+
+    <!-- Artistic and Professional Performances and Exhibits (Previously Submitted in a Prior Review) -->
+    <button class="collapsible nested-collapsible" onclick="toggleSection('creditedArtistic')">Artistic and Professional Performances and Exhibits (Previously Submitted in a Prior Review)</button>
+    <div id="creditedArtistic" class="nested-content">
+        <ul>
+          {% for artistic in credited_artistic_entries %}
+            <li>
+              Category: {{ artistic.category }},
+              Creative Work: {{ artistic.creativeWork }},
+              Start Date: {{ artistic.period_start|date:"F d, Y" }},
+              End Date: {{ artistic.period_end|date:"F d, Y" }},            
+            </li>
+          {% endfor %}
+        </ul>
+    </div>
+
+    <!-- Completed Parts of Larger Works -->
+    <button class="collapsible nested-collapsible" onclick="toggleSection('completedWorks')">Completed Parts of Larger Works</button>
+    <div id="completedWorks" class="nested-content">
+        <ul>
+          {% for work in completed_parts_of_works_entries %}
+            <li>
+              Category: {{ work.category }},
+              Work Detail: {{ work.work_detail }}
+            </li>
+          {% endfor %}
+        </ul>
+    </div>
+
+    <!-- Online & System Resources Produced/Maintained -->
+    <button class="collapsible nested-collapsible" onclick="toggleSection('professionalResources')">Professional Online & System Resources Produced/Maintained</button>
+    <div id="professionalResources" class="nested-content">
+        <ul>
+          {% for resource in professional_resources_entries %}
+            <li>
+              Dates Active: {{ resource.period_start }},
+              Description: {{ resource.description }}
+            </li>
+          {% endfor %}
+        </ul>
+    </div>
+
+    <!-- Intellectual Property -->
+    <button class="collapsible nested-collapsible" onclick="toggleSection('intellectualProperty')">Intellectual Property</button>
+    <div id="intellectualProperty" class="nested-content">
+        <ul>
+          {% for property in intellectual_property_entries %}
+            <li>
+              Dates: {{ property.period_start }},
+              Description: {{ property.description }}
+            </li>
+          {% endfor %}
+        </ul>
+    </div>
+
+    <!-- Contracts, Grants, Fellowships -->
+    <button class="collapsible nested-collapsible" onclick="toggleSection('contractsGrants')">Contracts, Grants, Fellowships</button>
+    <div id="contractsGrants" class="nested-content">
+        <ul>
+          {% for contract in contracts_grants_fellowships_entries %}
+            <li>
+              Previously Submitted: {% if contract.previously_submitted %}Yes{% else %}No{% endif %},
+              Funding Source: {{ contract.funding_source }},
+              Number or Title: {{ contract.number_or_title }},
+              Role: {{ contract.role }},
+              Amount: {{ contract.amount }},
+              Date Span: {{ contract.period_start }}
+            </li>
+          {% endfor %}
+        </ul>
+    </div>
+
+    <!-- Non-Financial Resources -->
+    <button class="collapsible nested-collapsible" onclick="toggleSection('nonFinancialResources')">Non-Financial Resources</button>
+    <div id="nonFinancialResources" class="nested-content">
+        <ul>
+          {% for resource in non_financial_resources_entries %}
+            <li>
+              Previously Submitted: {% if resource.previously_submitted %}Yes{% else %}No{% endif %},
+              Funding Source: {{ resource.funding_source }},
+              Number or Title: {{ resource.number_or_title }},
+              Role: {{ resource.role }},
+              Perks Description: {{ resource.perks_description }},
+              Date Span: {{ resource.period_start }}
+            </li>
+          {% endfor %}
+        </ul>
+    </div>
+
+    <!-- Professional Development Activities Related to Research/Creative Activities -->
+    <button class="collapsible nested-collapsible" onclick="toggleSection('profDevResearchActivities')">Professional Development Activities Related to Research/Creative Activities</button>
+    <div id="profDevResearchActivities" class="nested-content">
+        <ul>
+          {% for activity in prof_dev_research_activities_entries %}
+            <li>
+              Dates: {{ activity.period_start }},
+              Description: {{ activity.description }}
+            </li>
+          {% endfor %}
+        </ul>
+    </div>
+
+    <!-- Diversity Activities Related to Research/Creative Activities -->
+    <button class="collapsible nested-collapsible" onclick="toggleSection('diversityResearchActivities')">Diversity Activities Related to Research/Creative Activities</button>
+    <div id="diversityResearchActivities" class="nested-content">
+        <ul>
+          {% for activity in diversity_research_activities_entries %}
+            <li>
+              Dates: {{ activity.period_start }},
+              Description: {{ activity.description }}
+            </li>
+          {% endfor %}
+        </ul>
+    </div>
+</div>
+
+
+<!-- Section 4: Professional Recognition and Activity During Review Period -->
+<button class="collapsible" onclick="toggleSection('section4')">Section 4: Professional Recognition and Activity During Review Period</button>
+<div id="section4" class="content">
+    <!-- Honors and Awards -->
+    <button class="collapsible nested-collapsible" onclick="toggleSection('honorsAwards')">Honors and Awards</button>
+    <div id="honorsAwards" class="nested-content">
+        <ul>
+          {% for award in honors_award_entries %}
+            <li>
+              {% if award.dateinput %}
+                Date: {{ award.dateinput }},
+              {% else %}
+                Start Date: {{ award.period_start|date:"F d, Y" }},
+                End Date: {{ award.period_end|date:"F d, Y" }},
+              {% endif %}
+              Description: {{ award.description }}
+            </li>
+          {% endfor %}
+        </ul>
+    </div>
+
+    <!-- Membership -->
+    <button class="collapsible nested-collapsible" onclick="toggleSection('membership')">Membership</button>
+    <div id="membership" class="nested-content">
+        <ul>
+          {% for membership in membership_entries %}
+            <li>
+              {% if membership.dateinput %}
+                Date: {{ membership.dateinput }},
+              {% else %}
+                Start Date: {{ membership.period_start|date:"F d, Y" }},
+                End Date: {% if membership.endpresent %}Present{% else %}{{ membership.period_end|date:"F d, Y" }}{% endif %},
+              {% endif %}
+              Description: {{ membership.description }}
+            </li>
+          {% endfor %}
+        </ul>
+    </div>
+
+    <!-- Professional Activities -->
+    <button class="collapsible nested-collapsible" onclick="toggleSection('professionalActivities')">Professional Activities</button>
+    <div id="professionalActivities" class="nested-content">
+        <ul>
+          {% for activity in professional_activity_entries %}
+            <li>
+              {% if activity.dateinput %}
+                Date: {{ activity.dateinput }},
+              {% else %}
+                Start Date: {{ activity.period_start|date:"F d, Y" }},
+                End Date: {{ activity.period_end|date:"F d, Y" }},
+              {% endif %}
+              Description: {{ activity.description }}
+              <!-- Add other flags if necessary -->
+            </li>
+          {% endfor %}
+        </ul>
+    </div>
+
+    <!-- Professional and Public Service -->
+    <button class="collapsible nested-collapsible" onclick="toggleSection('profPublicService')">Professional and Public Service</button>
+    <div id="profPublicService" class="nested-content">
+        <ul>
+          {% for service in prof_public_service_entries %}
+            <li>
+              {% if service.dateinput %}
+                Date: {{ service.dateinput }},
+              {% else %}
+                Start Date: {{ service.period_start|date:"F d, Y" }},
+                End Date: {{ service.period_end|date:"F d, Y" }},
+              {% endif %}
+              Description: {{ service.description }}
+              <!-- Add flags if necessary -->
+            </li>
+          {% endfor %}
+        </ul>
+    </div>
+
+    <!-- Professional Development Activities Related to Professional and Public Service -->
+    <button class="collapsible nested-collapsible" onclick="toggleSection('profDevPublicService')">Professional Development Activities Related to Professional and Public Service</button>
+    <div id="profDevPublicService" class="nested-content">
+        <ul>
+          {% for activity in prof_dev_service_entries %}
+            <li>
+              {% if activity.dateinput %}
+                Date: {{ activity.dateinput }},
+              {% else %}
+                Start Date: {{ activity.period_start|date:"F d, Y" }},
+                End Date: {{ activity.period_end|date:"F d, Y" }},
+              {% endif %}
+              Description: {{ activity.description }}
+            </li>
+          {% endfor %}
+        </ul>
+    </div>
+
+    <!-- Diversity Activities Related to Professional and Public Service -->
+    <button class="collapsible nested-collapsible" onclick="toggleSection('diversityService')">Diversity Activities Related to Professional and Public Service</button>
+    <div id="diversityService" class="nested-content">
+        <ul>
+          {% for service in diversity_service_entries %}
+            <li>
+              {% if service.dateinput %}
+                Date: {{ service.dateinput }},
+              {% else %}
+                Start Date: {{ service.period_start|date:"F d, Y" }},
+                End Date: {{ service.period_end|date:"F d, Y" }},
+              {% endif %}
+              Description: {{ service.description }}
+            </li>
+          {% endfor %}
+        </ul>
+    </div>
+</div>
+
+
+<!-- Section 5 -->
+<button class="collapsible" onclick="toggleSection('section5')">Section 5: University and Systemwide Service During Review Period</button>
+<div id="section5" class="content">
+    <!-- University/Systemwide Service -->
+    <button class="collapsible nested-collapsible" onclick="toggleSection('universityService')">University/Systemwide Service</button>
+    <div id="universityService" class="nested-content">
+        <ul>
+          {% for service in university_systemwide_entries %}
+            <li>
+              Period: {{ service.period_start|date:"F d, Y" }} to {{ service.period_end|date:"F d, Y" }},
+              Description: {{ service.position_description }}
+            </li>
+          {% endfor %}
+        </ul>
+    </div>
+
+    <!-- Campus Service -->
+    <button class="collapsible nested-collapsible" onclick="toggleSection('campusService')">Campus Service</button>
+    <div id="campusService" class="nested-content">
+        <ul>
+          {% for service in campus_entries %}
+            <li>
+              Period: {{ service.period_start|date:"F d, Y" }} to {{ service.period_end|date:"F d, Y" }},
+              Description: {{ service.position_description }}
+            </li>
+          {% endfor %}
+        </ul>
+    </div>
+
+    <!-- School Service -->
+    <button class="collapsible nested-collapsible" onclick="toggleSection('schoolService')">School Service</button>
+    <div id="schoolService" class="nested-content">
+        <ul>
+          {% for service in school_entries %}
+            <li>
+              Period: {{ service.period_start|date:"F d, Y" }} to {{ service.period_end|date:"F d, Y" }},
+              Description: {{ service.position_description }}
+            </li>
+          {% endfor %}
+        </ul>
+    </div>
+
+    <!-- Department Service -->
+    <button class="collapsible nested-collapsible" onclick="toggleSection('departmentService')">Department Service</button>
+    <div id="departmentService" class="nested-content">
+        <ul>
+          {% for service in department_entries %}
+            <li>
+              Period: {{ service.period_start|date:"F d, Y" }} to {{ service.period_end|date:"F d, Y" }},
+              Description: {{ service.position_description }}
+            </li>
+          {% endfor %}
+        </ul>
+    </div>
+
+    <!-- Professional Development Activities Related to University/Systemwide Service -->
+    <button class="collapsible nested-collapsible" onclick="toggleSection('profDevUniversityService')">Professional Development Activities Related to University/Systemwide Service</button>
+    <div id="profDevUniversityService" class="nested-content">
+        <ul>
+          {% for activity in professional_developement_entries %}
+            <li>
+              Period: {{ activity.period_start|date:"F d, Y" }} to {{ activity.period_end|date:"F d, Y" }},
+              Description: {{ activity.position_description }}
+            </li>
+          {% endfor %}
+        </ul>
+    </div>
+
+    <!-- Diversity Activities Related to University/Systemwide Service -->
+    <button class="collapsible nested-collapsible" onclick="toggleSection('diversityUniversityService')">Diversity Activities Related to University/Systemwide Service</button>
+    <div id="diversityUniversityService" class="nested-content">
+        <ul>
+          {% for activity in diversity_activities_entries %}
+            <li>
+              Period: {{ activity.period_start|date:"F d, Y" }} to {{ activity.period_end|date:"F d, Y" }},
+              Description: {{ activity.position_description }}
+            </li>
+          {% endfor %}
+        </ul>
+    </div>
+</div>
+
+
+<!-- Add other sections as needed -->
+
+{% endblock %}
