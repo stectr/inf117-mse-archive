@@ -1,6 +1,6 @@
 # inf117-mse
 
-Archive of Informatics 117 Database group project done for school of material sciences.
+#Archive of Informatics 117 Database group project done for school of material sciences.#
 
 MSE Backend:
 
